@@ -11,6 +11,13 @@ defmodule Tai.Trading.OrderPipeline.Enqueue do
   end
 
   defp log_enqueued(order) do
-    Logger.info(fn -> "order enqueued - client_id: #{order.client_id}" end)
+    # Logger.info(fn -> "order enqueued - client_id: #{order.client_id}" end)
+    Logger.info(fn ->
+      # "[order|client_id: #{order.client_id},status:#{order.status}]"
+      Poison.encode!(%{
+        type: "order",
+        client_id: order.client_id
+      })
+    end)
   end
 end

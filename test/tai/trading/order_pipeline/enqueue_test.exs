@@ -1,5 +1,5 @@
 defmodule Tai.Trading.OrderPipeline.EnqueueTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
 
   import ExUnit.CaptureLog
 
@@ -42,7 +42,8 @@ defmodule Tai.Trading.OrderPipeline.EnqueueTest do
         :timer.sleep(100)
       end)
 
-    assert log_msg =~ "order enqueued - client_id:"
+    [order] = Tai.Trading.OrderStore.all()
+    assert log_msg =~ ~r/\[order|client_id: #{order.client_id},status:enqueued\]/
   end
 
   test "sell_limit enqueues an order and logs a message", %{callback: callback} do
@@ -69,6 +70,7 @@ defmodule Tai.Trading.OrderPipeline.EnqueueTest do
         :timer.sleep(100)
       end)
 
-    assert log_msg =~ "order enqueued - client_id:"
+    [order] = Tai.Trading.OrderStore.all()
+    assert log_msg =~ ~r/\[order|client_id: #{order.client_id},status:enqueued\]/
   end
 end

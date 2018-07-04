@@ -1,5 +1,18 @@
 use Mix.Config
 
+config :logger, level: :debug
+
+log_format = "$dateT$time [$level]$levelpad $metadata$message\n"
+
+config :logger, :file_log,
+  path: "./log/#{Mix.env()}.log",
+  format: log_format,
+  metadata: [:tid]
+
+config :logger,
+  backends: [{LoggerFileBackend, :file_log}],
+  utc_log: true
+
 config :exvcr,
   filter_request_headers: [
     # GDAX
