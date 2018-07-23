@@ -10,11 +10,11 @@ defmodule Tai do
       Tai.Exchanges.AssetBalances,
       Tai.Trading.OrderStore,
       Tai.Advisors.Supervisor,
-      Tai.Exchanges.AdaptersSupervisor,
+      Tai.Exchanges.AdaptersSupervisor
       # TODO
       # OrderBookFeedsSupervisor will become the responsibility of each 
       # individual adapter supervisor. Once complete it can be removed.
-      Tai.Exchanges.OrderBookFeedsSupervisor
+      # Tai.Exchanges.OrderBookFeedsSupervisor
     ]
 
     opts = [strategy: :one_for_one, name: Tai.Supervisor]

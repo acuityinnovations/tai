@@ -2,6 +2,7 @@ defmodule Tai.Exchanges.AdapterSupervisor do
   @callback hydrate_products() :: atom
   @callback hydrate_fees() :: atom
   @callback account() :: atom
+  @callback order_book_feed() :: atom
 
   defmacro __using__(_) do
     quote location: :keep do
@@ -22,6 +23,8 @@ defmodule Tai.Exchanges.AdapterSupervisor do
           {hydrate_fees(), [exchange_id: config.id, accounts: config.accounts]},
           {Tai.Exchanges.HydrateAssetBalances,
            [exchange_id: config.id, accounts: config.accounts]}
+          # {Tai.Exchanges.OrderBookFeedSupervisor,
+          #  [adapter: order_book_feed(), exchange_id: config.id]}
         ]
         |> Supervisor.init(strategy: :one_for_one)
       end

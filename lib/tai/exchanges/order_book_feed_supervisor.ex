@@ -1,44 +1,51 @@
 defmodule Tai.Exchanges.OrderBookFeedSupervisor do
   use Supervisor
 
-  def start_link(feed_id) do
-    Supervisor.start_link(__MODULE__, feed_id, name: feed_id |> to_name)
+  def start_link([adapter: _, exchange_id: exchange_id] = state) do
+    Supervisor.start_link(
+      __MODULE__,
+      state,
+      name: :"#{__MODULE__}_#{exchange_id}"
+    )
   end
 
-  def init(feed_id) do
-    feed_id
-    |> to_children
+  def init(adapter: adapter, exchange_id: exchange_id) do
+    exchange_id
+    |> to_children(adapter)
     |> Supervisor.init(strategy: :one_for_all)
+
+    # []
+    # |> Supervisor.init(strategy: :one_for_all)
   end
 
-  def to_name(feed_id) do
-    "#{__MODULE__}_#{feed_id}"
-    |> String.to_atom()
+  defp to_children(exchange_id, adapter) do
+    # order_book_child_specs(exchange_id) ++ feed_child_spec(adapter, exchange_id)
+    []
   end
 
-  defp to_children(feed_id) do
-    order_book_child_specs(feed_id)
-    |> Enum.concat([feed_id |> feed_child_spec])
-  end
-
-  defp order_book_child_specs(feed_id) do
-    feed_id
+  defp order_book_child_specs(exchange_id) do
+    exchange_id
     |> Tai.Exchanges.Config.order_book_feed_symbols()
     |> Enum.map(
       &Supervisor.child_spec(
-        {Tai.Markets.OrderBook, feed_id: feed_id, symbol: &1},
-        id: "#{Tai.Markets.OrderBook}_#{feed_id}_#{&1}"
+        {Tai.Markets.OrderBook, feed_id: exchange_id, symbol: &1},
+        id: "#{Tai.Markets.OrderBook}_#{exchange_id}_#{&1}"
       )
     )
   end
 
-  defp feed_child_spec(feed_id) do
+  defp feed_child_spec(adapter, exchange_id) do
     %{
-      id: feed_id |> Tai.Exchanges.OrderBookFeed.to_name(),
+      id: exchange_id |> Tai.Exchanges.OrderBookFeed.to_name(),
       start: {
-        feed_id |> Tai.Exchanges.Config.order_book_feed_adapter(),
+        adapter,
         :start_link,
-        [[feed_id: feed_id, symbols: feed_id |> Tai.Exchanges.Config.order_book_feed_symbols()]]
+        [
+          [
+            feed_id: exchange_id,
+            symbols: exchange_id |> Tai.Exchanges.Config.order_book_feed_symbols()
+          ]
+        ]
       },
       type: :worker,
       restart: :permanent,

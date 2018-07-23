@@ -16,4 +16,8 @@ defmodule Tai.ExchangeAdapters.Poloniex.Supervisor do
   def account do
     Tai.ExchangeAdapters.Poloniex.Account
   end
+
+  def order_book_feed do
+    Tai.ExchangeAdapters.Poloniex.OrderBookFeed
+  end
 end

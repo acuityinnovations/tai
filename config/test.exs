@@ -37,41 +37,43 @@ config :tai,
   exchanges: %{
     test_exchange_a: [
       supervisor: Tai.ExchangeAdapters.Mock.Supervisor,
+      order_books: "btc_usd ltc_usd",
       accounts: %{main: %{}}
     ],
     test_exchange_b: [
       supervisor: Tai.ExchangeAdapters.Mock.Supervisor,
+      order_books: "eth_usd ltc_usd",
       accounts: %{main: %{}}
     ]
   }
 
-config :tai,
-  order_book_feeds: %{
-    test_feed_a: [
-      adapter: Tai.ExchangeAdapters.Mock.OrderBookFeed,
-      order_books: [:btc_usd, :ltc_usd]
-    ],
-    test_feed_b: [
-      adapter: Tai.ExchangeAdapters.Mock.OrderBookFeed,
-      order_books: [:eth_usd, :ltc_usd]
-    ]
-  }
+# config :tai,
+#   order_book_feeds: %{
+#     test_feed_a: [
+#       adapter: Tai.ExchangeAdapters.Mock.OrderBookFeed,
+#       order_books: [:btc_usd, :ltc_usd]
+#     ],
+#     test_feed_b: [
+#       adapter: Tai.ExchangeAdapters.Mock.OrderBookFeed,
+#       order_books: [:eth_usd, :ltc_usd]
+#     ]
+#   }
 
 config :tai,
   advisors: [
-    %{
-      id: :create_and_cancel_pending_order,
-      supervisor: Examples.Advisors.CreateAndCancelPendingOrder.Supervisor,
-      order_books: "test_feed_a test_feed_b.eth_usd"
-    },
-    %{
-      id: :fill_or_kill_orders,
-      supervisor: Examples.Advisors.FillOrKillOrders.Supervisor,
-      order_books: "test_feed_a test_feed_b.eth_usd"
-    },
-    %{
-      id: :log_spread_advisor,
-      supervisor: Examples.Advisors.LogSpread.Supervisor,
-      order_books: "*"
-    }
+    # %{
+    #   id: :create_and_cancel_pending_order,
+    #   supervisor: Examples.Advisors.CreateAndCancelPendingOrder.Supervisor,
+    #   order_books: "test_feed_a test_feed_b.eth_usd"
+    # },
+    # %{
+    #   id: :fill_or_kill_orders,
+    #   supervisor: Examples.Advisors.FillOrKillOrders.Supervisor,
+    #   order_books: "test_feed_a test_feed_b.eth_usd"
+    # },
+    # %{
+    #   id: :log_spread_advisor,
+    #   supervisor: Examples.Advisors.LogSpread.Supervisor,
+    #   order_books: "*"
+    # }
   ]

@@ -16,4 +16,8 @@ defmodule Tai.ExchangeAdapters.Gdax.Supervisor do
   def account do
     Tai.ExchangeAdapters.Gdax.Account
   end
+
+  def order_book_feed do
+    Tai.ExchangeAdapters.Gdax.OrderBookFeed
+  end
 end

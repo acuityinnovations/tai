@@ -5,15 +5,19 @@ defmodule Tai.ExchangeAdapters.Mock.Supervisor do
 
   use Tai.Exchanges.AdapterSupervisor
 
-  def hydrate_fees() do
+  def hydrate_fees do
     Tai.ExchangeAdapters.Mock.HydrateFees
   end
 
-  def hydrate_products() do
+  def hydrate_products do
     Tai.ExchangeAdapters.Mock.HydrateProducts
   end
 
-  def account() do
+  def account do
     Tai.ExchangeAdapters.Mock.Account
+  end
+
+  def order_book_feed do
+    Tai.ExchangeAdapters.Test.OrderBookFeed
   end
 end

@@ -16,14 +16,17 @@ config :tai,
   exchanges: %{
     binance: [
       supervisor: Tai.ExchangeAdapters.Binance.Supervisor,
+      order_books: "btc_usdt ltc_usdt eth_usdt",
       accounts: %{main: %{}}
     ],
     poloniex: [
       supervisor: Tai.ExchangeAdapters.Poloniex.Supervisor,
+      order_books: "btc_usdt ltc_usdt eth_usdt",
       accounts: %{main: %{}}
     ],
     gdax: [
       supervisor: Tai.ExchangeAdapters.Gdax.Supervisor,
+      order_books: "btc_usd ltc_usd eth_usd",
       accounts: %{
         main: %{
           # https://docs.pro.coinbase.com/#api
@@ -34,22 +37,6 @@ config :tai,
           api_passphrase: System.get_env("GDAX_API_PASSPHRASE")
         }
       }
-    ]
-  }
-
-config :tai,
-  order_book_feeds: %{
-    gdax: [
-      adapter: Tai.ExchangeAdapters.Gdax.OrderBookFeed,
-      order_books: [:btc_usd, :ltc_usd, :eth_usd]
-    ],
-    binance: [
-      adapter: Tai.ExchangeAdapters.Binance.OrderBookFeed,
-      order_books: [:btc_usdt, :ltc_usdt, :eth_usdt]
-    ],
-    poloniex: [
-      adapter: Tai.ExchangeAdapters.Poloniex.OrderBookFeed,
-      order_books: [:btc_usdt, :ltc_usdt, :eth_usdt]
     ]
   }
 

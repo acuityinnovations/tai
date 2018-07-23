@@ -15,8 +15,7 @@ defmodule Tai.ExchangeAdapters.Poloniex.ProductsTest do
   test "retrieves the trade rules for each product" do
     config = %Tai.Exchanges.Config{
       id: :poloniex,
-      supervisor: Tai.ExchangeAdapters.Poloniex.Supervisor,
-      accounts: %{}
+      supervisor: Tai.ExchangeAdapters.Poloniex.Supervisor
     }
 
     exchange_id = config.id
@@ -45,8 +44,7 @@ defmodule Tai.ExchangeAdapters.Poloniex.ProductsTest do
   test "halts products that are frozen" do
     config = %Tai.Exchanges.Config{
       id: :poloniex,
-      supervisor: Tai.ExchangeAdapters.Poloniex.Supervisor,
-      accounts: %{}
+      supervisor: Tai.ExchangeAdapters.Poloniex.Supervisor
     }
 
     exchange_id = config.id

@@ -3,13 +3,19 @@ defmodule Tai.Exchanges.Config do
   Configuration helper for exchanges
   """
 
-  @type t :: %Tai.Exchanges.Config{}
+  @type t :: %Tai.Exchanges.Config{
+          id: atom,
+          supervisor: atom,
+          products: String.t(),
+          order_books: String.t(),
+          accounts: map
+        }
 
   @enforce_keys [:id, :supervisor]
-  defstruct id: nil, supervisor: nil, products: "*", accounts: %{}
+  defstruct id: nil, supervisor: nil, products: "*", order_books: "*", accounts: %{}
 
   @doc """
-  Return a struct for all configured exchanges 
+  Return a list of structs for each configured exchange
 
   ## Examples
 
@@ -19,12 +25,14 @@ defmodule Tai.Exchanges.Config do
         id: :test_exchange_a,
         supervisor: Tai.ExchangeAdapters.Mock.Supervisor,
         products: "*",
+        order_books: "btc_usd ltc_usd",
         accounts: %{main: %{}}
       },
       %Tai.Exchanges.Config{
         id: :test_exchange_b,
         supervisor: Tai.ExchangeAdapters.Mock.Supervisor,
         products: "*",
+        order_books: "eth_usd ltc_usd",
         accounts: %{main: %{}}
       }
     ]
@@ -37,6 +45,7 @@ defmodule Tai.Exchanges.Config do
         id: id,
         supervisor: Keyword.get(params, :supervisor),
         products: Keyword.get(params, :products, "*"),
+        order_books: Keyword.get(params, :order_books, "*"),
         accounts: Keyword.get(params, :accounts, %{})
       }
     end)
