@@ -11,8 +11,8 @@ defmodule Tai.Exchanges.AccountsSupervisor do
 
   def init(adapter: adapter, exchange_id: exchange_id, accounts: accounts) do
     accounts
-    |> Enum.map(fn {account_id, _} ->
-      {adapter, [exchange_id: exchange_id, account_id: account_id]}
+    |> Enum.map(fn {account_id, opts} ->
+      {adapter, [exchange_id: exchange_id, account_id: account_id, opts: opts]}
     end)
     |> Supervisor.init(strategy: :one_for_one)
   end

@@ -32,12 +32,9 @@ defmodule Tai.Exchanges.Account do
 
       @behaviour Tai.Exchanges.Account
 
-      def start_link([exchange_id: exchange_id, account_id: account_id] = state) do
-        GenServer.start_link(
-          __MODULE__,
-          state,
-          name: Tai.Exchanges.Account.to_name(exchange_id, account_id)
-        )
+      def start_link(exchange_id: exchange_id, account_id: account_id, opts: opts) do
+        name = Tai.Exchanges.Account.to_name(exchange_id, account_id)
+        GenServer.start_link(__MODULE__, opts, name: name)
       end
 
       def init(state) do
