@@ -10,20 +10,17 @@ defmodule Tai.Exchanges.HydrateAssetBalances do
     {:ok, state, {:continue, :fetch}}
   end
 
-  def handle_continue(:fetch, state) do
-    fetch!(state)
-    {:noreply, state}
-  end
-
-  defp fetch!(exchange_id: exchange_id, accounts: accounts) do
+  def handle_continue(:fetch, [exchange_id: exchange_id, accounts: accounts] = state) do
     accounts
-    |> Enum.map(fn {account_id, _} ->
+    |> Enum.each(fn {account_id, _} ->
       with {:ok, balances} <- Tai.Exchanges.Account.all_balances(exchange_id, account_id) do
-        balances
-        |> Enum.map(fn {_, balance} ->
-          Tai.Exchanges.AssetBalances.upsert(balance)
-        end)
+        Enum.map(
+          balances,
+          fn {_, balance} -> Tai.Exchanges.AssetBalances.upsert(balance) end
+        )
       end
     end)
+
+    {:noreply, state}
   end
 end
