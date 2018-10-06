@@ -3,6 +3,8 @@ defmodule Tai.ExchangeAdapters.New.Mock do
 
   import Tai.TestSupport.Mocks.Client
 
+  def order_book_feed, do: Tai.ExchangeAdapters.New.Mock.OrderBookFeed
+
   def products(exchange_id) do
     with_mock_server(fn ->
       exchange_id

@@ -1,6 +1,4 @@
 defmodule Tai.Advisors.Config do
-  alias Tai.Exchanges
-
   def all(config \\ Application.get_env(:tai, :advisors)) do
     config || []
   end
@@ -21,7 +19,7 @@ defmodule Tai.Advisors.Config do
   end
 
   defp order_books_by_adapter_id do
-    Exchanges.Config.order_book_feeds()
+    Tai.Exchanges.Config.order_book_feeds()
     |> Enum.reduce(
       %{},
       fn {adapter_id, [adapter: _, order_books: order_books]}, acc ->

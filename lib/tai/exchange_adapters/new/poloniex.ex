@@ -1,6 +1,8 @@
 defmodule Tai.ExchangeAdapters.New.Poloniex do
   use Tai.Exchanges.Adapter
 
+  def order_book_feed, do: Tai.ExchangeAdapters.New.Poloniex.OrderBookFeed
+
   defdelegate products(exchange_id), to: Tai.ExchangeAdapters.New.Poloniex.Products
 
   defdelegate asset_balances(exchange_id, account_id, credentials),

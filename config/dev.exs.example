@@ -16,14 +16,17 @@ config :tai,
   new_exchanges: %{
     binance: [
       adapter: Tai.ExchangeAdapters.New.Binance,
+      products: "btc_usdt ltc_usdt eth_usdt",
       accounts: %{main: %{}}
     ],
     poloniex: [
       adapter: Tai.ExchangeAdapters.New.Poloniex,
+      products: "btc_usdt ltc_usdt eth_usdt",
       accounts: %{main: %{}}
     ],
     gdax: [
       adapter: Tai.ExchangeAdapters.New.Gdax,
+      products: "btc_usd ltc_usd eth_usd",
       accounts: %{
         main: %{
           # https://docs.pro.coinbase.com/#api

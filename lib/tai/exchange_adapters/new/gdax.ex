@@ -1,5 +1,6 @@
 defmodule Tai.ExchangeAdapters.New.Gdax do
   use Tai.Exchanges.Adapter
+  def order_book_feed, do: Tai.ExchangeAdapters.New.Gdax.OrderBookFeed
 
   defdelegate products(exchange_id), to: Tai.ExchangeAdapters.New.Gdax.Products
 

@@ -14,9 +14,6 @@ defmodule Tai do
       Tai.Advisors.Supervisor,
       Tai.Exchanges.AdaptersSupervisor,
       {Task.Supervisor, name: Tai.TaskSupervisor, restart: :transient},
-      # TODO
-      # OrderBookFeedsSupervisor will become the responsibility of each 
-      # individual adapter supervisor. Once complete it can be removed.
       Tai.Exchanges.OrderBookFeedsSupervisor
     ]
 
